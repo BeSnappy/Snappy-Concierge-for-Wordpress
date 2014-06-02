@@ -3,6 +3,7 @@ Contributors: userscape
 Tags: customer support, freelance, agencies, consultant, consultants, support
 Requires at least: 3.8.0
 Tested up to: 3.9.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +38,9 @@ Yes, you can sign up here: [Snappy Customer Support Software](http://besnappy.co
 2. This is what the widget looks like when it's open.
 
 == Changelog ==
+
+= 1.1 =
+* The plugin now automatically pre-populates the Snappy widget with the name and email of the logged-in Wordpress user.
 
 = 1.0 =
 * Release!

@@ -3,7 +3,7 @@
  * Plugin Name: Snappy Concierge
  * Plugin URI: http://besnappy.com/concierge
  * Description: Snappy Concierge makes it easy for agencies and consultancies to organize ongoing change and support requests across multiple clients.
- * Version: 1.0
+ * Version: 1.1
  * Author: Userscape, Inc.
  * Author URI: http://www.besnappy.com
  * License: GPL2
@@ -31,7 +31,43 @@ function on_sc_uninstall()
 add_action('admin_footer', 'snappy_widget_code');
 function snappy_widget_code()
 {
-	echo get_option('sc_widget_code');
+	$snappy_widget_code = trim(get_option('sc_widget_code'));
+	if ( empty($snappy_widget_code) ) {
+		return;
+	}
+
+	$current_user_info = wp_get_current_user(); 
+	if ( $current_user_info )
+	{
+		$first_name = $current_user_info->user_firstname;
+		$last_name = $current_user_info->user_lastname;
+		$email = $current_user_info->user_email;
+		$display_name = $current_user_info->display_name;
+
+		// First name is good.
+		$name = $first_name;
+		if ( !empty($name) ) {
+			// First name and last name is better.
+			// Last name without first name is weird; skip that.
+			$name .= " $last_name";
+		}
+		$name = trim($name);
+		
+		// But if not even the first name, we'll try the display name.
+		if ( empty($name) ) {
+			$name = $display_name;
+		}
+
+		if ( !empty($name) ) {
+			$snappy_widget_code = str_replace("<script", "<script data-name='$name' ", $snappy_widget_code);		
+		}
+
+		if ( !empty($email) ) {
+			$snappy_widget_code = str_replace("<script", "<script data-email='$email' ", $snappy_widget_code);
+		}
+	}
+
+	echo $snappy_widget_code;
 }
 
 
